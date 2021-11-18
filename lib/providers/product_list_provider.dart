@@ -45,6 +45,12 @@ class ProductList with ChangeNotifier{
       }else return false;
     });
   }
+  List<Product> getFavProducts(){
+    return dummyProducts.where((iterableProduct){
+      print(iterableProduct.isFav);
+      return iterableProduct.isFav;
+    }).toList(); 
+  }
   void addProducts(){
     //to do
     notifyListeners();
