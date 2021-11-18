@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/product_list_provider.dart';
 import 'EachItemInGrid.dart';
-import '../providers/product_model_provider.dart';
 
 class AllItemsGrid extends StatelessWidget {
+  final _showOnlyFavs;
+
+  AllItemsGrid(this._showOnlyFavs);
+
   Widget build(BuildContext context) {
     var listClassInstance = Provider.of<ProductList>(context);
-    var providedList = listClassInstance.getProducts();
+    var providedList = _showOnlyFavs?listClassInstance.getFavProducts():listClassInstance.getProducts();
     return GridView.builder(
         padding: EdgeInsets.all(10),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -19,13 +22,7 @@ class AllItemsGrid extends StatelessWidget {
         itemCount: providedList.length,
         itemBuilder: (BuildContext ctx, int index) {
           return ChangeNotifierProvider.value(
-              value: Product(
-                  id: providedList[index].id,
-                  title: providedList[index].title,
-                  description: providedList[index].description,
-                  imageUrl: providedList[index].imageUrl,
-                  price: providedList[index].price,
-                  isFav: providedList[index].isFav),
+              value: providedList[index],
               child: EachItemInGrid());
         });
   }
