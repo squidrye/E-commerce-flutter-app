@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shopapp/providers/order_provider.dart';
 import '../providers/cart_map_provider.dart';
 import '../widget/cartItem.dart';
+
 class CartScreen extends StatelessWidget {
   static const String routeName = './CartScreen';
   Widget build(BuildContext context) {
@@ -32,25 +33,22 @@ class CartScreen extends StatelessWidget {
                                 .color)),
                     backgroundColor: Theme.of(context).primaryColor,
                   ),
-                  TextButton(child: Text("ORDER NOW"), onPressed: () {
-                    Provider.of<Order>(context,listen:false).addOrder(cart.dummyModel.values.toList(), cart.totalAmount());
-                  cart.clear();           
-                  }),
+                  OrderButton(cart),
                 ],
               ),
             ),
           ),
-          SizedBox(height:20),
+          SizedBox(height: 20),
           Expanded(
             child: ListView.builder(
-              itemCount:cart.getItemCount(),
-              itemBuilder: (BuildContext ctx, int index){
+              itemCount: cart.getItemCount(),
+              itemBuilder: (BuildContext ctx, int index) {
                 return CartItem(
-                  cartId:cart.getItems().values.toList()[index].id,
-                  productId:cart.getItems().keys.toList()[index],
-                  price:cart.getItems().values.toList()[index].price,
+                  cartId: cart.getItems().values.toList()[index].id,
+                  productId: cart.getItems().keys.toList()[index],
+                  price: cart.getItems().values.toList()[index].price,
                   quantity: cart.getItems().values.toList()[index].quantity,
-                  title:cart.getItems().values.toList()[index].title,
+                  title: cart.getItems().values.toList()[index].title,
                 );
               },
             ),
@@ -58,5 +56,37 @@ class CartScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class OrderButton extends StatefulWidget {
+  @override
+  OrderButton(this.cart);
+  final CartProvider cart;
+  OrderButtonState createState() {
+    return OrderButtonState();
+  }
+}
+
+class OrderButtonState extends State<OrderButton> {
+  bool _isLoading=false;
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+        child:_isLoading?CircularProgressIndicator(): Text("ORDER NOW"),
+        onPressed: widget.cart.getItemCount() == 0
+            ? null
+            : () async {
+              setState((){
+                _isLoading=true;
+              });
+                await Provider.of<Order>(context, listen: false).addOrder(
+                    widget.cart.dummyModel.values.toList(),
+                    widget.cart.totalAmount());
+                setState((){
+                  _isLoading=false;
+                });
+                widget.cart.clear();
+              });
   }
 }
