@@ -1,16 +1,17 @@
-# shopapp
+# A simple shopapp
 
-A new Flutter project.
+## E-commerce-flutter-app
 
-## Getting Started
+This project is built for project based learning of:
 
-This project is a starting point for a Flutter application.
+- State Management using providers, listeners and consumers;
+- User input and forms, validation and saving of forms;
+- sending http requests for working with firebase firestore as backend database;
+- working with futures, asynchronus code snippets, futurebuilders;
+- working with jsonEncoder and decoder;
+- managing manual user authentication with firebase using tokens and http requests using proxyprovider as well as managing auth token locally using shared-preferences;
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+
